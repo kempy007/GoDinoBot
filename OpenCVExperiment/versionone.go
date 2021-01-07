@@ -61,7 +61,8 @@ func main() {
 	WindowFocus := image.Rectangle{Min: image.Point{X: 110, Y: 180}, Max: image.Point{X: 500, Y: 150}}
 	//bgFocus := image.Rectangle{Min: image.Point{X: 120, Y: 190}, Max: image.Point{X: 5, Y: 5}}
 	// roiStartFocus := image.Rectangle{Min: image.Point{X: 200, Y: 285}, Max: image.Point{X: 50, Y: 35}}
-	roiStartFocus := image.Rectangle{Min: image.Point{X: 196, Y: 278}, Max: image.Point{X: 50, Y: 40}}
+	// TODO: fix as these two not fit correctly
+	roiStartFocus := image.Rectangle{Min: image.Point{X: 196, Y: 279}, Max: image.Point{X: 50, Y: 40}}
 	roiStartBounding := image.Rectangle{Min: image.Point{X: 85, Y: 103}, Max: image.Point{X: 135, Y: 140}} // 50, 40
 	setWindow_OSWin(WindowPosition)
 
@@ -121,7 +122,7 @@ func main() {
 		defer absdiffImg.Close()
 		gocv.AbsDiff(grayRoiImg, grayPriorRoiImg, &absdiffImg)
 		if absdiffImg.Mean().Val1 > 0 {
-			gocv.PutText(&sceneImg, "jump", image.Point{X: 10, Y: 10}, gocv.FontHersheyPlain, 10, color.RGBA{R: 0, G: 0, B: 255, A: 0}, 1)
+			gocv.PutText(&sceneImg, "jump", image.Point{X: 30, Y: 30}, gocv.FontHersheyPlain, 1, color.RGBA{R: 0, G: 0, B: 255, A: 0}, 2)
 			// TODO: send keyinput here
 			err = kb.Launching()
 			if err != nil {
@@ -188,8 +189,12 @@ func main() {
 			fullWindow.IMShow(sceneImg)
 			fullWindow.WaitKey(1)
 			i++
-			fmt.Print(i)
-			if i > 10 {
+			// fmt.Print(i)
+			// We grow the ROI to account for speed increase, 10 seems to fast and jumps early
+			// 10 = ~100
+			// 20 = ~600-706
+			// 18 = 490-716
+			if i > 18 {
 				roiStartFocus.Max.X++
 				roiStartBounding.Max.X++
 				i = 0
