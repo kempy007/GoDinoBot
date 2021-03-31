@@ -1,5 +1,7 @@
 # GoDinoBot
 
+/opencvexperiment/versionone.go is not a very high scoring game bot.
+
 Need to build openCV for windows as per https://gocv.io/getting-started/windows/
 download https://github.com/Kitware/CMake/releases/download/v3.19.2/cmake-3.19.2-win64-x64.msi
 
